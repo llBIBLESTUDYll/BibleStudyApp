@@ -1,73 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   TextInput,
-} from 'react-native';
-import { OpenAI } from 'openai';
+} from "react-native";
+// import { OpenAI } from 'openai';
 
-const { Configuration, OpenAIApi } = require('openai');
+// const { Configuration, OpenAIApi } = require('openai');
 
-const configuration = new Configuration({
-  apiKey: '',
-});
+// const configuration = new Configuration({
+//   apiKey: '',
+// });
 
-const sampleQuestion = [({
-  question: "What is the nature of God's love?",
-  verses: [
-    {
-      title: "1 John 4:8",
-      text: "Whoever does not love does not know God, because God is love."
-    },
-    {
-      title: "Romans 5:8",
-      text: "But God demonstrates his own love for us in this: While we were still sinners, Christ died for us."
-    },
-    {
-      title: "Ephesians 2:4-5",
-      text: "But because of his great love for us, God, who is rich in mercy, made us alive with Christ even when we were dead in transgressions—it is by grace you have been saved."
-    },
-    {
-      title: "Zephaniah 3:17",
-      text: "The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you; in his love he will no longer rebuke you, but will rejoice over you with singing."
-    }
-  ]
-},
-{
-  question: "How should Christians handle worry and anxiety?",
-  verses: [
-    {
-      title: "Philippians 4:6-7",
-      text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus."
-    },
-    {
-      title: "Matthew 6:25-27",
-      text: "Therefore I tell you, do not worry about your life, what you will eat or drink; or about your body, what you will wear. Is not life more than food, and the body more than clothes? Look at the birds of the air; they do not sow or reap or store away in barns, and yet your heavenly Father feeds them. Are you not much more valuable than they?"
-    },
-    {
-      title: "1 Peter 5:7",
-      text: "Cast all your anxiety on him because he cares for you."
-    },
-    {
-      title: "Psalm 55:22",
-      text: "Cast your cares on the Lord and he will sustain you; he will never let the righteous be shaken."
-    }
-  ]
-})
+const sampleQuestion = [
+  ({
+    question: "What is the nature of God's love?",
+    verses: [
+      {
+        title: "1 John 4:8",
+        text: "Whoever does not love does not know God, because God is love.",
+      },
+      {
+        title: "Romans 5:8",
+        text: "But God demonstrates his own love for us in this: While we were still sinners, Christ died for us.",
+      },
+      {
+        title: "Ephesians 2:4-5",
+        text: "But because of his great love for us, God, who is rich in mercy, made us alive with Christ even when we were dead in transgressions—it is by grace you have been saved.",
+      },
+      {
+        title: "Zephaniah 3:17",
+        text: "The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you; in his love he will no longer rebuke you, but will rejoice over you with singing.",
+      },
+    ],
+  },
+  {
+    question: "How should Christians handle worry and anxiety?",
+    verses: [
+      {
+        title: "Philippians 4:6-7",
+        text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
+      },
+      {
+        title: "Matthew 6:25-27",
+        text: "Therefore I tell you, do not worry about your life, what you will eat or drink; or about your body, what you will wear. Is not life more than food, and the body more than clothes? Look at the birds of the air; they do not sow or reap or store away in barns, and yet your heavenly Father feeds them. Are you not much more valuable than they?",
+      },
+      {
+        title: "1 Peter 5:7",
+        text: "Cast all your anxiety on him because he cares for you.",
+      },
+      {
+        title: "Psalm 55:22",
+        text: "Cast your cares on the Lord and he will sustain you; he will never let the righteous be shaken.",
+      },
+    ],
+  }),
 ];
 
-const openai = new OpenAIApi(configuration);
+// const openai = new OpenAIApi(configuration);
 
 const CreateSessionScreen = ({ navigation }) => {
-  const [groupType, setGroupType] = useState('');
-  const [numberQuestions, setNumberQuestions] = useState('');
-  const [numberVerses, setNumberVerses] = useState('');
-  const [focusTopic, setFocusTopic] = useState('');
-  const [bible, setBible] = useState('');
+  const [groupType, setGroupType] = useState("");
+  const [numberQuestions, setNumberQuestions] = useState("");
+  const [numberVerses, setNumberVerses] = useState("");
+  const [focusTopic, setFocusTopic] = useState("");
+  const [bible, setBible] = useState("");
 
-  const [apiResponse, setApiResponse] = useState('');
+  const [apiResponse, setApiResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
   const sampleResult =
@@ -78,19 +79,19 @@ const CreateSessionScreen = ({ navigation }) => {
     setLoading(true);
 
     var currentPrompt =
-      'Act as an experienced Christian Pastor. Generate ' +
+      "Act as an experienced Christian Pastor. Generate " +
       numberQuestions.toString() +
-      ' of thought-provoking Bible Study questions for our ' +
+      " of thought-provoking Bible Study questions for our " +
       groupType +
-      '. Provide the question and ' +
+      ". Provide the question and " +
       numberVerses.toString() +
-      ' of the most relevant bible verses that help the group answer the question. Provide the bible text from the ' +
+      " of the most relevant bible verses that help the group answer the question. Provide the bible text from the " +
       bible +
-      ' bible. If {{FocusTopic}} has a value, focus the questions on that specified topic. Provide the response in data array in the same format as the {{SampleResult}} but obviously customise it to have the correct number of questions and verses per question. Make sure not to add quotation marks to the variable names. Provide only the response no extra text or explanation. Provide the response as .txt code. SampleResult = (' +
+      " bible. If {{FocusTopic}} has a value, focus the questions on that specified topic. Provide the response in data array in the same format as the {{SampleResult}} but obviously customise it to have the correct number of questions and verses per question. Make sure not to add quotation marks to the variable names. Provide only the response no extra text or explanation. Provide the response as .txt code. SampleResult = (" +
       sampleResult +
-      '). FocusTopic = (' +
+      "). FocusTopic = (" +
       focusTopic +
-      ')';
+      ")";
 
     //   try {
     //     const result = await openai.createCompletion({
@@ -109,7 +110,7 @@ const CreateSessionScreen = ({ navigation }) => {
     console.log(currentPrompt);
     setLoading(false);
 
-    navigation.navigate('ActiveSession', { questions: sampleQuestion });
+    navigation.navigate("ActiveSession", { questions: sampleQuestion });
   };
 
   return (
@@ -175,7 +176,7 @@ const CreateSessionScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 10,
   },
   inputLabel: {
@@ -185,21 +186,21 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingVertical: 4,
-    borderColor: '#444444',
+    borderColor: "#444444",
     borderWidth: 1,
     borderRadius: 10,
     paddingLeft: 10,
-    color: 'grey',
+    color: "grey",
   },
   button: {
-    backgroundColor: '#444444',
+    backgroundColor: "#444444",
     padding: 15,
     borderRadius: 10,
     marginTop: 20,
   },
   buttonText: {
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
     fontSize: 16,
   },
 });
