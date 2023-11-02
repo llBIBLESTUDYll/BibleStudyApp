@@ -24,7 +24,7 @@ jobs:
         run: cd app && npm install
 
       - name: Clean install with npm ci
-        run: npm ci
+        run: cd app && npm ci
 
       - name: Build on EAS
         run: eas build --platform ios --non-interactive
