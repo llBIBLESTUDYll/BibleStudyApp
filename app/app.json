@@ -14,11 +14,15 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "buildNumber": "3",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jhavtech.biblestudy",
+      "infoPlist": {
+        "NSCameraUsageDescription": "The app needs permission to your camera in order to take photos for upload",
+        "NSPhotoLibraryUsageDescription": "The app needs permission to your camera roll in order to add photos you've already taken for upload"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +32,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "03cd26d9-81c7-4e87-9e79-09c9c10f11aa"
+      }
     }
   }
 }
