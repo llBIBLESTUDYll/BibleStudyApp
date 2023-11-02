@@ -21,7 +21,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
-        run: npm install
+        run: cd app && npm install
 
       - name: Clean install with npm ci
         run: npm ci
