@@ -3,3 +3,4 @@ node_modules/
 *.mobileprovision
 aps.cer
 
+*.p8
