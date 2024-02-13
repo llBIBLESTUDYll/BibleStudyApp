@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import SplashScreen from './screens/SplashScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import SessionStackScreen from './screens/SessionStackScreen';
+import QuestionScreen from './screens/QuestionScreen';
 
 // Create a Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -33,7 +34,10 @@ return (
           iconName = focused ? 'book' : 'book-outline';
         } else if (route.name === 'Settings') {
           iconName = focused ? 'settings' : 'settings-outline';
+        } else if (route.name === 'Question') { 
+          iconName = focused ? 'help-circle' : 'help-circle-outline';
         }
+
 
         // You can return any component that you like here!
         return <Ionicons name={iconName} size={size * 0.8} color={color} />;
@@ -45,6 +49,7 @@ return (
     }}
   >
     <Tab.Screen name="Study Session" component={SessionStackScreen} options={{ headerShown: false }} />
+    <Tab.Screen name="Question" component={QuestionScreen} options={{ headerShown: false }} />
     <Tab.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
   </Tab.Navigator>
 );

@@ -6,62 +6,12 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-// import { OpenAI } from 'openai';
-
-// const { Configuration, OpenAIApi } = require('openai');
-
-// const configuration = new Configuration({
-//   apiKey: '',
-// });
-
-const sampleQuestion = [
-  ({
-    question: "What is the nature of God's love?",
-    verses: [
-      {
-        title: "1 John 4:8",
-        text: "Whoever does not love does not know God, because God is love.",
-      },
-      {
-        title: "Romans 5:8",
-        text: "But God demonstrates his own love for us in this: While we were still sinners, Christ died for us.",
-      },
-      {
-        title: "Ephesians 2:4-5",
-        text: "But because of his great love for us, God, who is rich in mercy, made us alive with Christ even when we were dead in transgressions—it is by grace you have been saved.",
-      },
-      {
-        title: "Zephaniah 3:17",
-        text: "The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you; in his love he will no longer rebuke you, but will rejoice over you with singing.",
-      },
-    ],
-  },
-  {
-    question: "How should Christians handle worry and anxiety?",
-    verses: [
-      {
-        title: "Philippians 4:6-7",
-        text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
-      },
-      {
-        title: "Matthew 6:25-27",
-        text: "Therefore I tell you, do not worry about your life, what you will eat or drink; or about your body, what you will wear. Is not life more than food, and the body more than clothes? Look at the birds of the air; they do not sow or reap or store away in barns, and yet your heavenly Father feeds them. Are you not much more valuable than they?",
-      },
-      {
-        title: "1 Peter 5:7",
-        text: "Cast all your anxiety on him because he cares for you.",
-      },
-      {
-        title: "Psalm 55:22",
-        text: "Cast your cares on the Lord and he will sustain you; he will never let the righteous be shaken.",
-      },
-    ],
-  }),
-];
-
-// const openai = new OpenAIApi(configuration);
+import OpenAI from "openai";
 
 const CreateSessionScreen = ({ navigation }) => {
+
+  const openai = new OpenAI();
+  
   const [groupType, setGroupType] = useState("");
   const [numberQuestions, setNumberQuestions] = useState("");
   const [numberVerses, setNumberVerses] = useState("");
@@ -71,46 +21,46 @@ const CreateSessionScreen = ({ navigation }) => {
   const [apiResponse, setApiResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const sampleResult =
-    '{question: "What is the meaning of life?", verses: [{title: "Genesis 1:1", text: "In the beginning, God created the heavens and the earth."},{title: "John 3:16", text: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."}]},{question: "Why do good people suffer?", verses: [{title: "Job 1:1", text: "There was a man in the land of Uz whose name was Job, and that man was blameless and upright, one who feared God and turned away from evil."},{title: "Romans 8:28", text: "And we know that for those who love God all things work together for good, for those who are called according to his purpose."}]}';
-
   const handleCreateSession = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    var currentPrompt =
-      "Act as an experienced Christian Pastor. Generate " +
-      numberQuestions.toString() +
-      " of thought-provoking Bible Study questions for our " +
-      groupType +
-      ". Provide the question and " +
-      numberVerses.toString() +
-      " of the most relevant bible verses that help the group answer the question. Provide the bible text from the " +
-      bible +
-      " bible. If {{FocusTopic}} has a value, focus the questions on that specified topic. Provide the response in data array in the same format as the {{SampleResult}} but obviously customise it to have the correct number of questions and verses per question. Make sure not to add quotation marks to the variable names. Provide only the response no extra text or explanation. Provide the response as .txt code. SampleResult = (" +
-      sampleResult +
-      "). FocusTopic = (" +
-      focusTopic +
-      ")";
 
-    //   try {
-    //     const result = await openai.createCompletion({
-    //       model: "text-davinci-003",
-    //       messages: [{role: 'user', content: prompt}],
-    //       temperature: 0.5,
-
-    //     });
-    //     console.log("response", result.data.choices[0].message);
-    //     setApiResponse(result.data.choices[0].text);
-    //   } catch (e) {
-    //     console.log(e);
-    //     setApiResponse("Something is going wrong, Please try again.");
-    //    }
+  try {
+    const completion = await openai.createCompletion({
+      model: "gpt-4-0125-preview",
+      response_format: { "type": "json_object"},
+      messages: [
+        {
+          "role": "system", 
+          "content": "You are an experienced Christian Pastor that assists users in creating bible studies. Your job is to take the given instructions and generate relevant questions and verses and return it in JSON format"},
+        {
+          "role": "user", 
+          "content": "Generate 2 thought-provoking Bible Study questions for our family. Provide the question and 2 of the most relevant bible verses that help the group answer the question. Provide the bible text from the NIV bible. Focus the questions on the topic of difficult questions to answer as a christion."
+        },
+        {
+          "role": "assistant",
+          "content": "{question: 'What is the meaning of life?', verses: [{title: 'Genesis 1:1', text: 'In the beginning, God created the heavens and the earth.'},{title: 'John 3:16', text: 'For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.'}]},{question: 'Why do good people suffer?', verses: [{title: 'Job 1:1', text: 'There was a man in the land of Uz whose name was Job, and that man was blameless and upright, one who feared God and turned away from evil.'},{title: 'Romans 8:28', text: 'And we know that for those who love God all things work together for good, for those who are called according to his purpose.'}]}"
+        },
+        {
+          "role": "user", 
+          "content":"Generate ${number_of_questions} thought-provoking Bible Study questions for ${group_type}. Provide the question and ${number_of_verses} of the most relevant bible verses that help the group answer the question. Provide the bible text from the ${bible_version} bible. ${session_focus}"
+        },
+    ],
+    });
+    
+    console.log(completion.choices[0]);
+    question_data = completion.choices[0].message.content;
+    
+       } catch (e) {
+         console.log(e);
+         setApiResponse("Something is going wrong, Please try again.");
+       }
 
     console.log(currentPrompt);
     setLoading(false);
 
-    navigation.navigate("ActiveSession", { questions: sampleQuestion });
+    navigation.navigate("ActiveSession", { questions: question_data });
   };
 
   return (
