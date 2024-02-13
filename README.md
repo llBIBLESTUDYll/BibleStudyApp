@@ -1,7 +1,5 @@
 # Expo CI/CD Usage Instructions
 
-//TESTING THE CI/CD
-
 # Triggering CI/CD
 The below guides the user to get the new changes and create a separate app version on AppCenter
 ## Steps
