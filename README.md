@@ -40,6 +40,7 @@ Once You click on the Install button, there are two ways possible.
 
 # Adding the new users:
 To add new users, start by logging into the provided URL and you will find the screenshot below.
+https://developer.apple.com/account
 ## Click on identifiers
 ![Screenshot 2023-11-27 130019](https://github.com/jhavtechstudios/BibleStudyApp/assets/117446916/635f06fe-cc69-47e6-baac-e506d1a1b12c)
 ## Select the Devices from the navbar and click on the Add icon
