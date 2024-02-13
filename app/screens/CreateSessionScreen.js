@@ -17,6 +17,7 @@ const CreateSessionScreen = ({ navigation }) => {
   const [numberVerses, setNumberVerses] = useState("");
   const [focusTopic, setFocusTopic] = useState("");
   const [bible, setBible] = useState("");
+  const [session_focus, setSessionFocus] = useState("");
 
   const [apiResponse, setApiResponse] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,13 @@ const CreateSessionScreen = ({ navigation }) => {
   const handleCreateSession = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+  let session_focus; // Assuming session_focus is declared somewhere above
+  if (focusTopic) {
+    session_focus = "Focus the questions on the topic of " + focusTopic + ".";
+  } else {
+    session_focus = "";
+   }
 
 
   try {
@@ -44,7 +52,7 @@ const CreateSessionScreen = ({ navigation }) => {
         },
         {
           "role": "user", 
-          "content":"Generate ${number_of_questions} thought-provoking Bible Study questions for ${group_type}. Provide the question and ${number_of_verses} of the most relevant bible verses that help the group answer the question. Provide the bible text from the ${bible_version} bible. ${session_focus}"
+          "content":"Generate ${numberQuestions} thought-provoking Bible Study questions for ${groupType}. Provide the question and ${numberVerses} of the most relevant bible verses that help the group answer the question. Provide the bible text from the ${bible} bible. ${session_focus}"
         },
     ],
     });
