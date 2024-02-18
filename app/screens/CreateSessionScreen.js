@@ -10,7 +10,6 @@ import OpenAI from "openai";
 
 const CreateSessionScreen = ({ navigation }) => {
 
-  const openai = new OpenAI();
   
   const [groupType, setGroupType] = useState("");
   const [numberQuestions, setNumberQuestions] = useState("");
@@ -36,7 +35,9 @@ const CreateSessionScreen = ({ navigation }) => {
 
 
   try {
-    const completion = await openai.createCompletion({
+
+    const openai = new OpenAI();
+    const completion = await openai.chat.completions.create({
       model: "gpt-4-0125-preview",
       response_format: { "type": "json_object"},
       messages: [
