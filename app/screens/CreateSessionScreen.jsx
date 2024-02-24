@@ -39,7 +39,7 @@ const CreateSessionScreen = ({ navigation }) => {
     }
 
     try {
-      const completion = await openAIClient.chat.completions.create({
+      const completion = await axios.post('https://api.openai.com/v1/chat/completions', {
         messages: [
           {
             role: "system",
@@ -63,9 +63,15 @@ const CreateSessionScreen = ({ navigation }) => {
         ],
         model: "gpt-4-0125-preview",
         response_format: { type: "json_object" },
+      },
+      {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env['BibleStudyAPIKey']}`
+        },
       });
 
-      question_data = completion.choices[0].message.content;
+      question_data = completion.data.choices[0].message.content;
 
       setLoading(false);
 
