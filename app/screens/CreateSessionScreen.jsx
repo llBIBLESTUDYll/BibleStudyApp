@@ -7,7 +7,7 @@ import {
   TextInput,
 } from "react-native";
 import openai from "openai";
-import axios from 'axios';
+import axios from "axios";
 
 const CreateSessionScreen = ({ navigation }) => {
   //Define UseState Variables
@@ -21,7 +21,10 @@ const CreateSessionScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(null);
   const [error, setError] = useState(null);
 
-  const openAIClient = new openai({organisation: 'org-k4OnmHM4XUTTeBiKKSE3a5kC', apiKey: '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'});
+  const openAIClient = new openai({
+    organisation: process.env["OrganisationKey"],
+    apiKey: process.env["BibleStudyAPIKey"],
+  });
 
   //Function to Handle Submit
   const handleCreateSession = async () => {
