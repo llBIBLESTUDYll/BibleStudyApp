@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Animated } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import React, { useEffect, useRef } from "react";
+import { View, Animated } from "react-native";
+import Svg, { Path } from "react-native-svg";
 
-const CROSS_PATH = 'M20 5 H30 V15 H40 V25 H30 V45 H20 V25 H10 V15 H20 V4 Z';
+const CROSS_PATH = "M20 5 H30 V15 H40 V25 H30 V45 H20 V25 H10 V15 H20 V4 Z";
 const PATH_LENGTH = 180; // The total length of your path
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -23,24 +23,25 @@ const SplashScreen = ({ navigation }) => {
         useNativeDriver: false,
       }),
     ]);
+
     sequence.start(({ finished }) => {
-//     if (finished) {
-//        sequence.reset();
-//        sequence.start(({ finished }) => {
-//          if (finished) {
-//            sequence.reset();
-//           sequence.start(({ finished }) => {
+      if (finished) {
+        sequence.reset();
+        sequence.start(({ finished }) => {
+          if (finished) {
+            sequence.reset();
+            sequence.start(({ finished }) => {
               if (finished) {
                 navigation.reset({
-              index: 0,
-    routes: [{ name: 'Tab' }],
-});
+                  index: 0,
+                  routes: [{ name: "Tab" }],
+                });
               }
             });
-//          }
-//        });
-//      }
-//    });
+          }
+        });
+      }
+    });
   }, [navigation, length]);
 
   const strokeDashoffset = length.interpolate({
@@ -49,7 +50,14 @@ const SplashScreen = ({ navigation }) => {
   });
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+      }}
+    >
       <Svg width="50%" height="50%" viewBox="0 0 50 50">
         <AnimatedPath
           d={CROSS_PATH}

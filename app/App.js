@@ -15,6 +15,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator(); 
 
+//Authorisation Stack
 const AuthStackScreen = () => {
 return (
   <AuthStack.Navigator>
@@ -23,10 +24,13 @@ return (
 );
 }
 
+//Main Stack
 const TabNavigator = () => {
 return (
   <Tab.Navigator
     screenOptions={({ route }) => ({
+
+      //Set Icon Function
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
 
@@ -38,8 +42,6 @@ return (
           iconName = focused ? 'help-circle' : 'help-circle-outline';
         }
 
-
-        // You can return any component that you like here!
         return <Ionicons name={iconName} size={size * 0.8} color={color} />;
       },
     })}
