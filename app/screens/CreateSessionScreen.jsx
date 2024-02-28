@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import openai from "openai";
+console.log('Reached the point of generating an IOS log');
+
 import axios from "axios";
 
 const CreateSessionScreen = ({ navigation }) => {
@@ -21,11 +22,6 @@ const CreateSessionScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(null);
   const [error, setError] = useState(null);
 
-  const openAIClient = new openai({
-    organisation: process.env["OrganisationKey"],
-    apiKey: process.env["BibleStudyAPIKey"],
-  });
-
   //Function to Handle Submit
   const handleCreateSession = async () => {
     //Set Loading State
@@ -33,9 +29,9 @@ const CreateSessionScreen = ({ navigation }) => {
 
     //Set Focus Topic
     if (focusTopic) {
-      session_focus = "Focus the questions on the topic of " + focusTopic + ".";
+      const session_focus = "Focus the questions on the topic of " + focusTopic + ".";
     } else {
-      session_focus = "";
+      const session_focus = "";
     }
 
     try {
@@ -71,9 +67,9 @@ const CreateSessionScreen = ({ navigation }) => {
         },
       });
 
-      question_data = completion.data.choices[0].message.content;
+      const question_data = completion.data.choices[0].message.content;
 
-      setLoading(false);
+      setIsLoading(false);
 
       navigation.navigate("ActiveSession", { questions: question_data });
     } catch (e) {
