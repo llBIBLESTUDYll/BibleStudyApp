@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "bible-study-app",
+    "name": "Bible Study",
+    "owner": "bible-app",
     "slug": "snack-c0665a24-1733-4b45-b87e-9bb23f802999",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/App_Icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
