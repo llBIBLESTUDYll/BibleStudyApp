@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
 console.log('Reached the point of generating an IOS log');
 
@@ -17,11 +18,22 @@ const CreateSessionScreen = ({ navigation }) => {
   const [numberVerses, setNumberVerses] = useState("");
   const [focusTopic, setFocusTopic] = useState("");
   const [bible, setBible] = useState("");
+  const [isMounted, setIsMounted] = useState(true);
 
   const [apiResponse, setApiResponse] = useState("");
   const [isLoading, setIsLoading] = useState(null);
   const [error, setError] = useState(null);
+  const session_focus = "";
 
+  //Check component is properly mounted
+  useEffect(() => {
+    // Component did mount
+    return () => {
+      // Component will unmount
+      setIsMounted(false);
+    };
+  }, []);
+  
   //Function to Handle Submit
   const handleCreateSession = async () => {
     //Set Loading State
@@ -30,8 +42,6 @@ const CreateSessionScreen = ({ navigation }) => {
     //Set Focus Topic
     if (focusTopic) {
       const session_focus = "Focus the questions on the topic of " + focusTopic + ".";
-    } else {
-      const session_focus = "";
     }
 
     try {
@@ -63,21 +73,24 @@ const CreateSessionScreen = ({ navigation }) => {
       {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env['BibleStudyAPIKey']}`
+            'Authorization': `Bearer ${process.env.OpenAI_API_Key}`
         },
       });
 
       const question_data = completion.data.choices[0].message.content;
 
-      setIsLoading(false);
-
-      navigation.navigate("ActiveSession", { questions: question_data });
+      if (isMounted) {
+        navigation.navigate("ActiveSession", { questions: question_data });
+        setIsLoading(false);
+      }
     } catch (e) {
       console.log(e);
       Alert.alert(
         "Error",
         "Failed to create session due to an error. Please check your network connection and try again.",
       );
+    } finally {
+      setIsLoading(false); // Ensure loading is stopped regardless of outcome
     }
   };
 
@@ -94,7 +107,7 @@ const CreateSessionScreen = ({ navigation }) => {
 
       <Text style={styles.inputLabel}>Number of Questions</Text>
       <TextInput
-        inputMode="numeric"
+        keyboardType="numeric"
         style={styles.input}
         onChangeText={setNumberQuestions}
         value={numberQuestions}
