@@ -28,6 +28,6 @@ jobs:
 
       - name: Pod install
         run: cd ios/ && pod install
-        
+
       - name: Build on EAS
         run: cd app && eas build --profile preview --platform ios --non-interactive
